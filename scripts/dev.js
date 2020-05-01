@@ -1,14 +1,20 @@
 const path = require("path");
-const { execSync } = require("child_process");
+
+const liveServer = require("live-server");
 
 const build = require("./build");
 const watch = require("./watch");
 
-const cmd = (name) => path.join(__dirname, "../../.bin", name);
-
 function start() {
   build();
-  execSync(`${cmd("ws")} --directory dist -o`);
+
+  const params = {
+    port: 6666,
+    root: path.join(process.env.PWD, "./dist"),
+    open: true,
+  };
+  liveServer.start(params);
+
   watch();
 }
 

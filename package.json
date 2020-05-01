@@ -1,6 +1,6 @@
 {
   "name": "alegrify-static-site",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "description": "",
   "main": "bin/alegrify-static-site.js",
   "bin": {
@@ -20,7 +20,7 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "babel-loader": "^8.1.0",
-    "local-web-server": "4.0.0",
+    "live-server": "1.2.1",
     "npm-watch": "^0.6.0",
     "prettier": "^2.0.5",
     "react": "16.13.1",

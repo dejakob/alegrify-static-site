@@ -1,5 +1,5 @@
 const React = require("react");
-const { Body, Main, H1 } = require("react-alegrify-ui");
+const { Body, Footer, Main, H1, P, Section } = require("react-alegrify-ui");
 
 const Head = require("../../components/lib/head");
 
@@ -10,7 +10,13 @@ function Index() {
       <Body>
         <Main>
           <H1>My amazing website</H1>
+          <Section>
+            <P>Put your amazing content over here :)</P>
+          </Section>
         </Main>
+        <Footer textCenter>
+          Bootstrapped with alegrify-static-site
+        </Footer>
       </Body>
     </html>
   );
