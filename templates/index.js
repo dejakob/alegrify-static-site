@@ -14,9 +14,7 @@ function Index() {
             <P>Put your amazing content over here :)</P>
           </Section>
         </Main>
-        <Footer textCenter>
-          Bootstrapped with alegrify-static-site
-        </Footer>
+        <Footer textCenter>Bootstrapped with alegrify-static-site</Footer>
       </Body>
     </html>
   );
