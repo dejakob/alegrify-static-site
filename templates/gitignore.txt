@@ -1,0 +1,8 @@
+node_modules
+./dist
+./pages/lib
+./components/lib
+./client-js/lib
+./credentials.js
+./credentials.json
+./.npmrc

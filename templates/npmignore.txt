@@ -1,0 +1,8 @@
+./build
+./dist
+./site/src
+./components/src
+./client-js/src
+./credentials.js
+./credentials.json
+./cloud-functions
