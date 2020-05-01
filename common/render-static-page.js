@@ -10,6 +10,7 @@ function renderStaticPage(fileName) {
       process.env.PWD,
       `./pages/lib/${fileName}`
     ));
+    console.log("page component", pageComponent);
     const htmlString = renderToStaticMarkup(pageComponent());
 
     fs.writeFileSync(
