@@ -6,11 +6,9 @@ const { renderToStaticMarkup } = require("react-dom/server");
 
 function renderStaticPage(fileName) {
   try {
-    const pageComponent = require(path.join(
-      process.env.PWD,
-      `./pages/lib/${fileName}`
-    ));
-    console.log("page component", pageComponent);
+    const pageComponent = requireUncached(
+      path.join(process.env.PWD, `./pages/lib/${fileName}`)
+    );
     const htmlString = renderToStaticMarkup(pageComponent());
 
     fs.writeFileSync(
@@ -20,6 +18,11 @@ function renderStaticPage(fileName) {
   } catch (ex) {
     console.error(ex);
   }
+}
+
+function requireUncached(module) {
+  delete require.cache[require.resolve(module)];
+  return require(module);
 }
 
 module.exports = renderStaticPage;
