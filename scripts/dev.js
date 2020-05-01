@@ -9,7 +9,7 @@ function start() {
   build();
 
   const params = {
-    port: 6666,
+    port: 8080,
     root: path.join(process.env.PWD, "./dist"),
     open: true,
   };
