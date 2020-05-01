@@ -8,8 +8,7 @@ const cmd = (name) => path.join(__dirname, "../../.bin", name);
 
 function start() {
   build();
-  console.log(`${cmd("ws")} --directory dist -p 6666 -o`);
-  execSync(`${cmd("ws")} --directory dist -p 6666 -o`);
+  execSync(`${cmd("ws")} --directory dist -o`);
   watch();
 }
 
