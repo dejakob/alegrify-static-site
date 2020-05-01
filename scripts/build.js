@@ -56,6 +56,7 @@ function buildPages() {
  */
 function buildStaticPages() {
   fs.readdirSync("./pages/lib").forEach((page) => {
+    console.info(`Generate page ${page}`);
     renderStaticPage(page);
   });
 }
