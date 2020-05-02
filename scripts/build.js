@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require('child_process');
 
 const runNpmBinary = require("../common/run-npm-binary");
 const renderStaticPage = require("../common/render-static-page");
@@ -61,11 +62,11 @@ function buildStaticPages() {
 }
 
 function copyClientJs() {
-  runNpmBinary("cp -R client-js/lib/* dist/");
+  execSync("cp -R client-js/lib/* dist/");
 }
 
 function copyAssets() {
-  runNpmBinary("cp -R static/* dist/");
+  execSync("cp -R static/* dist/");
 }
 
 module.exports = build;
