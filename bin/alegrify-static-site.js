@@ -1,22 +1,24 @@
 #!/usr/bin/env node
-const build = require("../scripts/build");
-const dev = require("../scripts/dev");
-const init = require("../scripts/init");
-const watch = require("../scripts/watch");
-
-const SCRIPTS_TO_RUN = {
-  build,
-  dev,
-  init,
-  watch,
-};
+/* eslint-disable node/shebang,import/no-dynamic-require,global-require  */
+const path = require("path");
 
 run(process.argv.slice(2));
 
-function run(script, ...scriptArgs) {
-  if (!SCRIPTS_TO_RUN[script]) {
-    throw new Error(`There is no ${script} script.`);
+function run(scriptName, ...scriptArgs) {
+  let script;
+
+  try {
+    script = require(path.join(__dirname, `../scripts/${scriptName}`));
+  } catch (ex) {
+    console.info(`Alegrify Static Site Generator
+===========
+
+[init] Set up new project in current directory
+[build] Build dist output folder
+[watch] Watch files for changes and build
+[dev] Watch and livereload
+[lint] Run eslint with predefined config`);
   }
 
-  SCRIPTS_TO_RUN[script](...scriptArgs);
+  script(...scriptArgs);
 }

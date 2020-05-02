@@ -1,10 +1,9 @@
 const fs = require("fs");
 const path = require("path");
-const { execSync } = require("child_process");
 
+const runNpmBinary = require("../common/run-npm-binary");
 const renderStaticPage = require("../common/render-static-page");
 
-const cmd = (name) => path.join(__dirname, "../../.bin", name);
 const config = (name) => path.join(__dirname, "../config", name);
 
 function build() {
@@ -26,15 +25,15 @@ build.copyAssets = copyAssets;
  * Transpile client-js folder
  */
 function buildClientJs() {
-  execSync(`${cmd("webpack")} --config ${config("webpack.config.js")}`);
+  runNpmBinary(`webpack --config ${config("webpack.config.js")}`);
 }
 
 /**
  * Transpile components folder
  */
 function buildComponents() {
-  execSync(
-    `${cmd("babel")} ./components/src --config-file ${config(
+  runNpmBinary(
+    `babel ./components/src --config-file ${config(
       "ssr.babelrc"
     )} --out-dir ./components/lib`
   );
@@ -44,8 +43,8 @@ function buildComponents() {
  * Transpile pages folder
  */
 function buildPages() {
-  execSync(
-    `${cmd("babel")} ./pages/src --config-file ${config(
+  runNpmBinary(
+    `babel ./pages/src --config-file ${config(
       "ssr.babelrc"
     )} --out-dir ./pages/lib`
   );
@@ -62,11 +61,11 @@ function buildStaticPages() {
 }
 
 function copyClientJs() {
-  execSync("cp -R client-js/lib/* dist/");
+  runNpmBinary("cp -R client-js/lib/* dist/");
 }
 
 function copyAssets() {
-  execSync("cp -R static/* dist/");
+  runNpmBinary("cp -R static/* dist/");
 }
 
 module.exports = build;
