@@ -9,6 +9,7 @@ function run(scriptName, ...scriptArgs) {
 
   try {
     script = require(path.join(__dirname, `../scripts/${scriptName}`));
+    script(...scriptArgs);
   } catch (ex) {
     console.info(`Alegrify Static Site Generator
 ===========
@@ -19,6 +20,4 @@ function run(scriptName, ...scriptArgs) {
 [dev] Watch and livereload
 [lint] Run eslint with predefined config`);
   }
-
-  script(...scriptArgs);
 }

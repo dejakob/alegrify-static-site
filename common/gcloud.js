@@ -1,4 +1,6 @@
 /* eslint-disable no-use-before-define,no-restricted-syntax,no-console */
+const fs = require("fs");
+const path = require("path");
 
 const { Storage } = require("@google-cloud/storage");
 const { lsrAsync } = require("lsr");
@@ -6,7 +8,7 @@ const { lsrAsync } = require("lsr");
 async function getBucket() {
   const credentials = await getCredentials();
 
-  if (!credentials.gcloud_bucket) {
+  if (!credentials.bucket) {
     throw new Error(
       "Please provide GCLOUD_BUCKET as environment variable or gcloud_bucket inside credentials.json"
     );
@@ -16,7 +18,7 @@ async function getBucket() {
     projectId: credentials.projectId,
     credentials,
   });
-  return storage.bucket(credentials.gcloud_bucket);
+  return storage.bucket(credentials.bucket);
 }
 
 async function getCredentials() {
@@ -24,7 +26,12 @@ async function getCredentials() {
 
   try {
     // eslint-disable-next-line node/no-unpublished-require,global-require
-    const contents = require("../credentials.json");
+    const contents = JSON.parse(
+      fs
+        .readFileSync(path.join(process.env.PWD, "./credentials.json"))
+        .toString()
+    );
+
     credentials = { ...credentials, ...contents };
     // eslint-disable-next-line no-empty
   } catch (ex) {}
