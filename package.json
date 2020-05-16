@@ -1,6 +1,6 @@
 {
   "name": "alegrify-static-site",
-  "version": "1.0.50",
+  "version": "1.0.51",
   "description": "",
   "main": "bin/alegrify-static-site.js",
   "bin": {
