@@ -90,7 +90,7 @@ async function uploadFolderToBucket(folderPath) {
 
   for (const fileName of files) {
     // eslint-disable-next-line no-await-in-loop
-    await uploadFileToBucket(fileName, folderPath.replace('dist', ''));
+    await uploadFileToBucket(fileName, folderPath);
   }
 }
 
