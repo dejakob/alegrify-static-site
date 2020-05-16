@@ -7,15 +7,17 @@ const watch = require("./watch");
 
 function start() {
   build();
+  runLiveServer();
+  watch();
+}
 
+function runLiveServer() {
   const params = {
     port: 8080,
     root: path.join(process.env.PWD, "./dist"),
     open: true,
   };
   liveServer.start(params);
-
-  watch();
 }
 
 module.exports = start;

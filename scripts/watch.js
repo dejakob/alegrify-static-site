@@ -7,22 +7,25 @@ const {
   copyClientJs,
   copyAssets,
 } = require("./build");
+const silence = require('../common/silence');
 
 function watch() {
   watchTree("components/src", () => {
-    buildComponents();
+    silence(buildComponents);
   });
   watchTree("pages/src", () => {
-    buildPages();
-    buildStaticPages();
+    silence(buildPages);
+    silence(buildStaticPages);
   });
   watchTree("client-js/src", () => {
-    buildClientJs();
-    copyClientJs();
+    silence(buildClientJs);
+    silence(copyClientJs);
   });
   watchTree("static", () => {
-    copyAssets();
+    silence(copyAssets);
   });
+
+  process.on('uncaughtException', watch);
 }
 
 module.exports = watch;
