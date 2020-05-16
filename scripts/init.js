@@ -16,9 +16,6 @@ const DIRECTORIES = [
   // Gcloud functions / serverless web workers
   "cloud-functions",
 
-  // Assets (e.g. images, favicon, ...)
-  "static",
-
   // Client side JavaScript
   "client-js",
   "client-js/src",
