@@ -11,13 +11,19 @@ function run(scriptName, ...scriptArgs) {
     script = require(path.join(__dirname, `../scripts/${scriptName}`));
     script(...scriptArgs);
   } catch (ex) {
-    console.info(`Alegrify Static Site Generator
-===========
+    if (process.env.CI) {
+      console.error(`Error when running script ${scriptName}`);
+      throw ex;
+    } else {
+      console.info(`Alegrify Static Site Generator
+      ===========
 
-[init] Set up new project in current directory
-[build] Build dist output folder
-[watch] Watch files for changes and build
-[dev] Watch and livereload
-[lint] Run eslint with predefined config`);
+      [init] Set up new project in current directory
+      [build] Build dist output folder
+      [watch] Watch files for changes and build
+      [dev] Watch and livereload
+      [lint] Run eslint with predefined config
+      [upload] Upload dist to gcloud`);
+    }
   }
 }
