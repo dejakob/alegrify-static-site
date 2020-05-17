@@ -1,9 +1,10 @@
 const fs = require("fs");
 const path = require("path");
-const { execSync } = require('child_process');
+const { execSync } = require("child_process");
 
 const runNpmBinary = require("../common/run-npm-binary");
 const renderStaticPage = require("../common/render-static-page");
+const silence = require("../common/silence");
 
 const config = (name) => path.join(__dirname, "../config", name);
 
@@ -55,6 +56,9 @@ function buildPages() {
  * Page generator
  */
 function buildStaticPages() {
+  // Create dist folder, if it doesn't exist yet
+  silence(() => execSync('mkdir ./dist'));
+
   fs.readdirSync("./pages/lib").forEach((page) => {
     console.info(`Generate page ${page}`);
     renderStaticPage(page);
