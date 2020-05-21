@@ -2,7 +2,7 @@
 /* eslint-disable node/shebang,import/no-dynamic-require,global-require  */
 const path = require("path");
 
-run(process.argv.slice(2));
+run(process.argv[2]);
 
 function run(input) {
   const [scriptName, ...scriptArgs] = input.split(",");
