@@ -7,7 +7,10 @@ function lint(...args) {
     `eslint ${args.indexOf("fix") > -1 ? "--fix " : ""}--config ${path.join(
       process.env.PWD,
       ".eslintrc.json"
-    )} './(components)|(pages)|(client-js)/src/**/*.js'`
+    )} '${path.join(
+      process.env.PWD,
+      "/(components)|(pages)|(client-js)/src/**/*.js"
+    )}'`
   );
 }
 
