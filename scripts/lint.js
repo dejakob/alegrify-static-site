@@ -3,7 +3,7 @@ const path = require("path");
 const runNpmBinary = require("../common/run-npm-binary");
 
 function lint(...args) {
-  return runNpmBinary(
+  runNpmBinary(
     `eslint ${args.indexOf("fix") > -1 ? "--fix " : ""}--config ${path.join(
       process.env.PWD,
       ".eslintrc.json"

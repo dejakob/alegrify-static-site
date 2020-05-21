@@ -10,7 +10,7 @@ function run(input) {
 
   try {
     script = require(path.join(__dirname, `../scripts/${scriptName}`));
-    console.log(script(...scriptArgs));
+    script(...scriptArgs);
   } catch (ex) {
     if (process.env.CI) {
       console.error(`Error when running script ${scriptName}`);

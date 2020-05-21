@@ -1,5 +1,5 @@
 const path = require("path");
-const { spawnSync } = require("child_process");
+const { execSync } = require("child_process");
 
 const mkdir = require("../common/mkdir");
 const { version } = require("../package.json");
@@ -55,23 +55,23 @@ function init() {
   // Copy config files
   Object.keys(FILES_TO_COPY).forEach((fileFrom) => {
     const fileTo = FILES_TO_COPY[fileFrom];
-    spawnSync(`cp ${fileFrom} ${fileTo}`);
+    execSync(`cp ${fileFrom} ${fileTo}`);
   });
 
   // Copy full directories
   Object.keys(DIRECTORIES_TO_COPY).forEach((directoryFrom) => {
     const directoryTo = DIRECTORIES_TO_COPY[directoryFrom];
-    spawnSync(`cp -R ${directoryFrom} ${directoryTo}`);
+    execSync(`cp -R ${directoryFrom} ${directoryTo}`);
   });
 
   // Add dev deps
   DEV_DEPS.forEach((devDep) => {
-    spawnSync(`npm i --save-dev ${devDep}@${version}`);
+    execSync(`npm i --save-dev ${devDep}@${version}`);
   });
 
   // Add deps
   DEPS.forEach((dep) => {
-    spawnSync(`npm i --save --save-exact ${dep}`);
+    execSync(`npm i --save --save-exact ${dep}`);
   });
 }
 
