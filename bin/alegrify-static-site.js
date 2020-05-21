@@ -4,12 +4,13 @@ const path = require("path");
 
 run(process.argv.slice(2));
 
-function run(scriptName, ...scriptArgs) {
+function run(input) {
+  const [scriptName, ...scriptArgs] = input.split(",");
   let script;
 
   try {
     script = require(path.join(__dirname, `../scripts/${scriptName}`));
-    script(...scriptArgs);
+    console.log(script(...scriptArgs));
   } catch (ex) {
     if (process.env.CI) {
       console.error(`Error when running script ${scriptName}`);
