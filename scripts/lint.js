@@ -9,7 +9,7 @@ function lint(...args) {
       ".eslintrc.json"
     )} '${path.join(
       process.env.PWD,
-      "/[(components)|(pages)|(client-js)]/src/**/*.js"
+      "{components,pages,client-js}/src/**/*.js"
     )}'`
   );
 }
