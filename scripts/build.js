@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { execSync } = require("child_process");
+const { spawnSync } = require("child_process");
 
 const runNpmBinary = require("../common/run-npm-binary");
 const renderStaticPage = require("../common/render-static-page");
@@ -57,7 +57,7 @@ function buildPages() {
  */
 function buildStaticPages() {
   // Create dist folder, if it doesn't exist yet
-  silence(() => execSync('mkdir ./dist'));
+  silence(() => spawnSync("mkdir ./dist"));
 
   fs.readdirSync("./pages/lib").forEach((page) => {
     console.info(`Generate page ${page}`);
@@ -66,11 +66,11 @@ function buildStaticPages() {
 }
 
 function copyClientJs() {
-  execSync("cp -R client-js/lib/* dist/");
+  spawnSync("cp -R client-js/lib/* dist/");
 }
 
 function copyAssets() {
-  execSync("cp -R static/* dist/");
+  spawnSync("cp -R static/* dist/");
 }
 
 module.exports = build;

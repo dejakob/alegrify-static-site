@@ -1,4 +1,4 @@
-const { execSync } = require("child_process");
+const { spawnSync } = require("child_process");
 
 /**
  * Safely create directory
@@ -6,7 +6,7 @@ const { execSync } = require("child_process");
  */
 function mkdir(directoryName) {
   try {
-    execSync(`mkdir ${directoryName}`);
+    spawnSync(`mkdir ${directoryName}`);
   } catch (ex) {
     // eslint-disable-next-line no-console
     console.info(`Directory ${directoryName} already exists`);
