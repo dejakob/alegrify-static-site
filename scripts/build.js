@@ -13,6 +13,9 @@ function build() {
   buildComponents();
   buildPages();
   buildStaticPages();
+  buildScss();
+  buildLessCss();
+  buildPostCss();
   copyClientJs();
   copyAssets();
 }
@@ -20,6 +23,9 @@ build.buildClientJs = buildClientJs;
 build.buildComponents = buildComponents;
 build.buildPages = buildPages;
 build.buildStaticPages = buildStaticPages;
+build.buildScss = buildScss;
+build.buildLessCss = buildLessCss;
+build.buildPostCss = buildPostCss;
 build.copyClientJs = copyClientJs;
 build.copyAssets = copyAssets;
 
@@ -60,9 +66,71 @@ function buildStaticPages() {
   silence(() => execSync("mkdir ./dist"));
 
   fs.readdirSync("./pages/lib").forEach((page) => {
-    console.info(`Generate page ${page}`);
-    renderStaticPage(page);
+    if (page.endsWith(".htm") || page.endsWith(".html")) {
+      console.info(`Generate page ${page}`);
+      renderStaticPage(page);
+    }
   });
+}
+
+function buildLessCss() {
+  fs.readdirSync("./pages/src").forEach((page) => {
+    buildLessPage("pages", page);
+  });
+}
+
+function buildLessPage(folder, page) {
+  if (page.endsWith(".less")) {
+    runNpmBinary(
+      `lessc --source-map --clean-css="--s0" --autoprefix ${path.join(
+        process.env.PWD,
+        `./${folder}/src/${page} ${path.join(
+          process.env.PWD,
+          `./dist/${page.replace(".less", ".css")}`
+        )}`
+      )}`
+    );
+  }
+}
+
+function buildScss() {
+  fs.readdirSync("./pages/src").forEach((page) => {
+    buildScssPage("pages", page);
+  });
+}
+
+function buildScssPage(folder, page) {
+  if (page.endsWith(".scss")) {
+    runNpmBinary(
+      `sass ${path.join(
+        process.env.PWD,
+        `./${folder}/src/${page} ${path.join(
+          process.env.PWD,
+          `./dist/${page.replace(".scss", ".css")}`
+        )}`
+      )} --style compressed`
+    );
+  }
+}
+
+function buildPostCss() {
+  fs.readdirSync("./pages/src").forEach((page) => {
+    buildPostCssPage("pages", page);
+  });
+}
+
+function buildPostCssPage(folder, page) {
+  if (page.endsWith(".css")) {
+    runNpmBinary(
+      `postcss ${path.join(
+        process.env.PWD,
+        `./${folder}/src/${page} -o ${path.join(
+          process.env.PWD,
+          `./dist/${page}`
+        )}`
+      )} --use autoprefixer postcss-preset-env`
+    );
+  }
 }
 
 function copyClientJs() {
