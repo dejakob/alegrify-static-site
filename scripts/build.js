@@ -66,7 +66,7 @@ function buildStaticPages() {
   silence(() => execSync("mkdir ./dist"));
 
   fs.readdirSync("./pages/lib").forEach((page) => {
-    if (page.endsWith(".htm") || page.endsWith(".html")) {
+    if (page.endsWith(".js")) {
       console.info(`Generate page ${page}`);
       renderStaticPage(page);
     }
