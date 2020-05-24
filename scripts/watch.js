@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const { watchTree } = require("watch");
 const {
   buildClientJs,
@@ -8,30 +10,54 @@ const {
   buildLessCss,
   buildPostCss,
   copyClientJs,
-  copyAssets,
+  copyAsset,
 } = require("./build");
-const silence = require("../common/silence");
 
 function watch() {
-  watchTree("components/src", () => {
-    silence(buildComponents);
+  watchTree("components/src", async () => {
+    await buildComponents();
+    await buildPages();
+    buildStaticPages();
+
+    buildScss();
+    buildLessCss();
+    buildPostCss();
   });
-  watchTree("pages/src", () => {
-    silence(buildPages);
-    silence(buildStaticPages);
-    silence(buildScss);
-    silence(buildLessCss);
-    silence(buildPostCss);
+  watchTree("pages/src", async () => {
+    await buildPages();
+    buildStaticPages();
+
+    buildScss();
+    buildLessCss();
+    buildPostCss();
   });
-  watchTree("client-js/src", () => {
-    silence(buildClientJs);
-    silence(copyClientJs);
+  watchTree("client-js/src", async () => {
+    await buildClientJs();
+    await copyClientJs();
+    buildStaticPages();
   });
-  watchTree("static", () => {
-    silence(copyAssets);
+  watchTree("static", async ({ static }) => {
+    /* eslint-disable-next-line no-restricted-syntax */
+    for (const filePath of Object.keys(static)) {
+      /* eslint-disable-next-line no-await-in-loop */
+      await copyAsset(filePath);
+    }
   });
 
-  process.on("uncaughtException", watch);
+  if (fs.existsSync("./utils")) {
+    watchTree("utils", async () => {
+      await buildComponents();
+      await buildPages();
+      await buildClientJs();
+
+      await copyClientJs();
+
+      buildStaticPages();
+      buildScss();
+      buildLessCss();
+      buildPostCss();
+    });
+  }
 }
 
 module.exports = watch;

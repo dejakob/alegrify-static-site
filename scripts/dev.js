@@ -6,7 +6,7 @@ const build = require("./build");
 const watch = require("./watch");
 
 function start() {
-  build();
+  build({ exitOnFailure: false });
   runLiveServer();
   watch();
 }

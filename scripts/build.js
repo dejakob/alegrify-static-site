@@ -1,23 +1,35 @@
 const fs = require("fs");
 const path = require("path");
-const { execSync } = require("child_process");
+const { exec } = require("child_process");
 
 const runNpmBinary = require("../common/run-npm-binary");
 const renderStaticPage = require("../common/render-static-page");
-const silence = require("../common/silence");
+const mkdir = require("../common/mkdir");
 
 const config = (name) => path.join(__dirname, "../config", name);
 
-function build() {
-  buildClientJs();
-  buildComponents();
-  buildPages();
-  buildStaticPages();
-  buildScss();
-  buildLessCss();
-  buildPostCss();
-  copyClientJs();
-  copyAssets();
+async function build({ exitOnFailure } = { exitOnFailure: true }) {
+  try {
+    await buildClientJs();
+    await buildComponents();
+    await buildPages();
+    buildStaticPages();
+
+    buildScss();
+    buildLessCss();
+    buildPostCss();
+
+    await copyClientJs();
+    await copyAssets();
+
+    console.log("");
+    console.log("🎉🎉🎉 BUILD SUCCEEDED! 🎉🎉🎉");
+  } catch (ex) {
+    if (exitOnFailure) {
+      // eslint-disable-next-line no-process-exit
+      process.exit(3);
+    }
+  }
 }
 build.buildClientJs = buildClientJs;
 build.buildComponents = buildComponents;
@@ -28,19 +40,20 @@ build.buildLessCss = buildLessCss;
 build.buildPostCss = buildPostCss;
 build.copyClientJs = copyClientJs;
 build.copyAssets = copyAssets;
+build.copyAsset = copyAsset;
 
 /**
  * Transpile client-js folder
  */
 function buildClientJs() {
-  runNpmBinary(`webpack --config ${config("webpack.config.js")}`);
+  return runNpmBinary(`webpack --config ${config("webpack.config.js")}`);
 }
 
 /**
  * Transpile components folder
  */
 function buildComponents() {
-  runNpmBinary(
+  return runNpmBinary(
     `babel ./components/src --config-file ${config(
       "ssr.babelrc"
     )} --out-dir ./components/lib`
@@ -51,7 +64,7 @@ function buildComponents() {
  * Transpile pages folder
  */
 function buildPages() {
-  runNpmBinary(
+  return runNpmBinary(
     `babel ./pages/src --config-file ${config(
       "ssr.babelrc"
     )} --out-dir ./pages/lib`
@@ -63,12 +76,18 @@ function buildPages() {
  */
 function buildStaticPages() {
   // Create dist folder, if it doesn't exist yet
-  silence(() => execSync("mkdir ./dist"));
+  mkdir("./dist");
 
   fs.readdirSync("./pages/lib").forEach((page) => {
     if (page.endsWith(".js")) {
-      console.info(`Generate page ${page}`);
-      renderStaticPage(page);
+      try {
+        renderStaticPage(page);
+        console.log(`✅ Generated ${page} successfully`);
+      } catch (ex) {
+        console.log(`❌ Could not render ${page}`);
+        console.log(ex);
+        throw ex;
+      }
     }
   });
 }
@@ -134,11 +153,63 @@ function buildPostCssPage(folder, page) {
 }
 
 function copyClientJs() {
-  execSync("cp -R client-js/lib/* dist/");
+  return new Promise((resolve, reject) => {
+    exec("cp -R client-js/lib/* dist/", (err, stdout, stderr) => {
+      if (err) {
+        console.log("❌ ERROR copying client js files");
+        console.log("");
+        console.log("========================");
+        console.log(stderr);
+        console.log("");
+
+        return reject();
+      }
+
+      console.log(`✅ Copied client JS files`);
+      return resolve();
+    });
+  });
 }
 
 function copyAssets() {
-  execSync("cp -R static/* dist/");
+  return new Promise((resolve, reject) => {
+    exec("cp -R static/* dist/", (err, stdout, stderr) => {
+      if (err) {
+        console.log("❌ ERROR copying assets");
+        console.log("");
+        console.log("========================");
+        console.log(stderr);
+        console.log("");
+
+        return reject();
+      }
+
+      console.log(`✅ Copied assets`);
+      return resolve();
+    });
+  });
+}
+
+function copyAsset(filePath) {
+  return new Promise((resolve, reject) => {
+    exec(
+      `cp -R ${filePath} ${filePath.replace("static/", "dist/")}`,
+      (err, stdout, stderr) => {
+        if (err) {
+          console.log("❌ ERROR copying assets");
+          console.log("");
+          console.log("========================");
+          console.log(stderr);
+          console.log("");
+
+          return reject();
+        }
+
+        console.log(`✅ Copied assets`);
+        return resolve();
+      }
+    );
+  });
 }
 
 module.exports = build;
