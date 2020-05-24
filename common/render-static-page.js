@@ -5,19 +5,15 @@ const path = require("path");
 const { renderToStaticMarkup } = require("react-dom/server");
 
 function renderStaticPage(fileName) {
-  try {
-    const pageComponent = requireUncached(
-      path.join(process.env.PWD, `./pages/lib/${fileName}`)
-    );
-    const htmlString = renderToStaticMarkup(pageComponent());
+  const pageComponent = requireUncached(
+    path.join(process.env.PWD, `./pages/lib/${fileName}`)
+  );
+  const htmlString = renderToStaticMarkup(pageComponent());
 
-    fs.writeFileSync(
-      `./dist/${fileName.replace(/js$/gi, "html")}`,
-      `<!doctype html>${htmlString}`
-    );
-  } catch (ex) {
-    console.error(ex);
-  }
+  fs.writeFileSync(
+    `./dist/${fileName.replace(/js$/gi, "html")}`,
+    `<!doctype html>${htmlString}`
+  );
 }
 
 function requireUncached(module) {
