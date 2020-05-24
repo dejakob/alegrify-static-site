@@ -9,7 +9,7 @@ function mkdir(directoryName) {
     execSync(`mkdir ${directoryName} >/dev/null 2>&1`);
   } catch (ex) {
     // eslint-disable-next-line no-console
-    console.info(`ℹ️ Directory ${directoryName} already exists`);
+    console.info(`ℹ️  Directory ${directoryName} already exists`);
   }
 }
 
