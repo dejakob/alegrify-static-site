@@ -23,9 +23,8 @@ async function build({ exitOnFailure } = { exitOnFailure: true }) {
     await copyClientJs();
     await copyAssets();
 
-    console.log("🎉🎉🎉");
-    console.log("BUILD SUCCEEDED!");
-    console.log("🎉🎉🎉");
+    console.log("");
+    console.log("🎉🎉🎉 BUILD SUCCEEDED! 🎉🎉🎉");
   } catch (ex) {
     if (exitOnFailure) {
       // eslint-disable-next-line no-process-exit
@@ -77,7 +76,7 @@ function buildPages() {
  */
 function buildStaticPages() {
   // Create dist folder, if it doesn't exist yet
-  mkdir('./dist');
+  mkdir("./dist");
 
   fs.readdirSync("./pages/lib").forEach((page) => {
     if (page.endsWith(".js")) {
