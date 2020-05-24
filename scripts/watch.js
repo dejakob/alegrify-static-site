@@ -22,21 +22,25 @@ function watch() {
     silence(buildLessCss);
     silence(buildPostCss);
   });
-  watchTree("pages/src", () => {
+  watchTree("pages/src", (...a) => {
+    console.log('pages', a)
     silence(buildPages);
     silence(buildStaticPages);
     silence(buildScss);
     silence(buildLessCss);
     silence(buildPostCss);
   });
-  watchTree("client-js/src", () => {
+  watchTree("client-js/src", (...a) => {
+    console.log('cjs', a)
     silence(buildClientJs);
     silence(copyClientJs);
   });
-  watchTree("static", () => {
+  watchTree("static", (...a) => {
+    console.log('static', a)
     silence(copyAssets);
   });
-  watchTree("utils", () => {
+  watchTree("utils", (...a) => {
+    console.log('utils', a)
     silence(buildComponents);
     silence(buildPages);
     silence(buildStaticPages);
