@@ -15,6 +15,11 @@ const silence = require("../common/silence");
 function watch() {
   watchTree("components/src", () => {
     silence(buildComponents);
+    silence(buildPages);
+    silence(buildStaticPages);
+    silence(buildScss);
+    silence(buildLessCss);
+    silence(buildPostCss);
   });
   watchTree("pages/src", () => {
     silence(buildPages);
@@ -29,6 +34,14 @@ function watch() {
   });
   watchTree("static", () => {
     silence(copyAssets);
+  });
+  watchTree("utils", () => {
+    silence(buildComponents);
+    silence(buildPages);
+    silence(buildStaticPages);
+    silence(buildScss);
+    silence(buildLessCss);
+    silence(buildPostCss);
   });
 
   process.on("uncaughtException", watch);
