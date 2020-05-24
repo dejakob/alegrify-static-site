@@ -13,7 +13,8 @@ const {
 const silence = require("../common/silence");
 
 function watch() {
-  watchTree("components/src", () => {
+  watchTree("components/src", (...a) => {
+    console.log('components', a)
     silence(buildComponents);
     silence(buildPages);
     silence(buildStaticPages);
