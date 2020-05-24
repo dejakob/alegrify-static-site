@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const { watchTree } = require("watch");
 const {
   buildClientJs,
@@ -41,18 +43,21 @@ function watch() {
       await copyAsset(filePath);
     }
   });
-  watchTree("utils", async () => {
-    await buildComponents();
-    await buildPages();
-    await buildClientJs();
 
-    await copyClientJs();
+  if (fs.existsSync("./utils")) {
+    watchTree("utils", async () => {
+      await buildComponents();
+      await buildPages();
+      await buildClientJs();
 
-    buildStaticPages();
-    buildScss();
-    buildLessCss();
-    buildPostCss();
-  });
+      await copyClientJs();
+
+      buildStaticPages();
+      buildScss();
+      buildLessCss();
+      buildPostCss();
+    });
+  }
 }
 
 module.exports = watch;
