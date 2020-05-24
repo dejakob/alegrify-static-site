@@ -1,10 +1,9 @@
 const fs = require("fs");
 const path = require("path");
-const { exec, execSync } = require("child_process");
+const { exec } = require("child_process");
 
 const runNpmBinary = require("../common/run-npm-binary");
 const renderStaticPage = require("../common/render-static-page");
-const silence = require("../common/silence");
 const mkdir = require("../common/mkdir");
 
 const config = (name) => path.join(__dirname, "../config", name);
