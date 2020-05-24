@@ -5,6 +5,7 @@ const { exec, execSync } = require("child_process");
 const runNpmBinary = require("../common/run-npm-binary");
 const renderStaticPage = require("../common/render-static-page");
 const silence = require("../common/silence");
+const mkdir = require("../common/mkdir");
 
 const config = (name) => path.join(__dirname, "../config", name);
 
@@ -76,7 +77,7 @@ function buildPages() {
  */
 function buildStaticPages() {
   // Create dist folder, if it doesn't exist yet
-  silence(() => execSync("mkdir ./dist"));
+  mkdir('./dist');
 
   fs.readdirSync("./pages/lib").forEach((page) => {
     if (page.endsWith(".js")) {
