@@ -40,6 +40,7 @@ build.buildLessCss = buildLessCss;
 build.buildPostCss = buildPostCss;
 build.copyClientJs = copyClientJs;
 build.copyAssets = copyAssets;
+build.copyAsset = copyAsset;
 
 /**
  * Transpile client-js folder
@@ -186,6 +187,28 @@ function copyAssets() {
       console.log(`✅ Copied assets`);
       return resolve();
     });
+  });
+}
+
+function copyAsset(filePath) {
+  return new Promise((resolve, reject) => {
+    exec(
+      `cp -R ${filePath} ${filePath.replace("static/", "dist/")}`,
+      (err, stdout, stderr) => {
+        if (err) {
+          console.log("❌ ERROR copying assets");
+          console.log("");
+          console.log("========================");
+          console.log(stderr);
+          console.log("");
+
+          return reject();
+        }
+
+        console.log(`✅ Copied assets`);
+        return resolve();
+      }
+    );
   });
 }
 
