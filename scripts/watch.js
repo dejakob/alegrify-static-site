@@ -16,7 +16,7 @@ function watch() {
     await buildComponents();
     await buildPages();
     buildStaticPages();
-    
+
     buildScss();
     buildLessCss();
     buildPostCss();
@@ -53,8 +53,6 @@ function watch() {
     buildLessCss();
     buildPostCss();
   });
-
-  process.on("uncaughtException", watch);
 }
 
 module.exports = watch;
