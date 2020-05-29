@@ -20,19 +20,22 @@ module.exports = {
     rules: [
       {
         test: /\.(js)$/,
+        exclude: [/\bcore-js\b/, /\bwebpack\/buildin\b/],
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
-            plugins: [
-              "@babel/plugin-syntax-dynamic-import",
+            sourceType: "unambiguous",
+            presets: [
               [
-                "@babel/plugin-transform-runtime",
+                "@babel/preset-env",
                 {
-                  regenerator: true,
+                  useBuiltIns: "usage",
+                  corejs: 3,
                 },
               ],
+              "@babel/preset-react",
             ],
+            plugins: ["@babel/plugin-syntax-dynamic-import"],
           },
         },
       },
