@@ -18,6 +18,13 @@ async function getBucket() {
     projectId: credentials.projectId,
     credentials,
   });
+
+  const buckets = await storage.getBuckets(credentials.bucket);
+
+  if (!buckets || !buckets.length) {
+    await storage.createBucket(credentials.bucket);
+  }
+
   return storage.bucket(credentials.bucket);
 }
 
