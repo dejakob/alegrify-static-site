@@ -4,10 +4,12 @@ const path = require("path");
 const entry = {};
 
 fs.readdirSync("./client-js/src").forEach((file) => {
-  entry[file.replace(/.js$/gi, "")] = path.join(
-    process.env.PWD,
-    `client-js/src/${file}`
-  );
+  if (file.endsWith(".js")) {
+    entry[file.replace(/.js$/gi, "")] = path.join(
+      process.env.PWD,
+      `client-js/src/${file}`
+    );
+  }
 });
 
 module.exports = {
