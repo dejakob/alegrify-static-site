@@ -14,6 +14,7 @@ function runNpmBinary(script) {
         console.log("========================");
         console.log(stderr);
         console.log("");
+        console.log(stdout)
 
         return reject();
       }
