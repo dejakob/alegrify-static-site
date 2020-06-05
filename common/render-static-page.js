@@ -5,7 +5,7 @@ const path = require("path");
 const { renderToStaticMarkup } = require("react-dom/server");
 
 function renderStaticPage(fileName) {
-  shutUp(() => {
+  //shutUp(() => {
     const pageComponent = requireUncached(
       path.join(process.env.PWD, `./pages/lib/${fileName}`)
     );
@@ -15,7 +15,7 @@ function renderStaticPage(fileName) {
       `./dist/${fileName.replace(/js$/gi, "html")}`,
       `<!doctype html>${htmlString}`
     );
-  });
+  //});
 }
 
 function requireUncached(module) {
