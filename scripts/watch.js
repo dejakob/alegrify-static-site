@@ -16,8 +16,11 @@ const {
 function watch() {
   watchTree("components/src", async () => {
     await buildComponents();
+    await copyClientJs();
     await buildPages();
     buildStaticPages();
+
+    copyClientJs();
 
     buildScss();
     buildLessCss();
@@ -35,6 +38,8 @@ function watch() {
     await buildClientJs();
     await copyClientJs();
     buildStaticPages();
+
+    copyClientJs();
   });
   watchTree("static", async ({ static }) => {
     /* eslint-disable-next-line no-restricted-syntax */

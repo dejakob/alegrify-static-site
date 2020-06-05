@@ -10,8 +10,8 @@ const config = (name) => path.join(__dirname, "../config", name);
 
 async function build({ exitOnFailure } = { exitOnFailure: true }) {
   try {
-    await buildClientJs();
     await buildComponents();
+    await buildClientJs();
     await buildPages();
     buildStaticPages();
 
@@ -64,6 +64,7 @@ function buildComponents() {
  * Transpile pages folder
  */
 function buildPages() {
+  console.log('build pages');
   return runNpmBinary(
     `babel ./pages/src --config-file ${config(
       "ssr.babelrc"
