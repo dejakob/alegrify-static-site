@@ -3,7 +3,7 @@ const path = require("path");
 const { exec } = require("child_process");
 
 const PACKAGE_JSON = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "./package.json")).toString()
+  fs.readFileSync(path.join(process.env.PWD, "package.json")).toString()
 );
 
 const runNpmBinary = require("../common/run-npm-binary");

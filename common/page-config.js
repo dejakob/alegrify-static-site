@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const PACKAGE_JSON = JSON.parse(
-  fs.readFileSync(path.join(process.env.PWD, "./package.json")).toString()
+  fs.readFileSync(path.join(process.env.PWD, "package.json")).toString()
 );
 
 function createPageConfig() {
