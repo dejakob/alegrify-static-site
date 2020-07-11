@@ -1,21 +1,33 @@
-/* eslint-disable no-console,no-restricted-syntax,no-await-in-loop,global-require,import/no-dynamic-require */
+/* eslint-disable no-console,no-restricted-syntax,no-await-in-loop,global-require,import/no-dynamic-require,node/no-unsupported-features/es-syntax */
 const fs = require("fs");
 const path = require("path");
+
+const PACKAGE_JSON = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "../package.json")).toString()
+);
 
 const { renderToStaticMarkup } = require("react-dom/server");
 
 function renderStaticPage(fileName) {
-  //shutUp(() => {
-    const pageComponent = requireUncached(
-      path.join(process.env.PWD, `./pages/lib/${fileName}`)
-    );
-    const htmlString = renderToStaticMarkup(pageComponent());
+  // shutUp(() => {
+  const pageComponent = requireUncached(
+    path.join(process.env.PWD, `./pages/lib/${fileName}`)
+  );
+  const pageConfig = {
+    package: { ...PACKAGE_JSON },
+    getScriptFile: (scriptPath) =>
+      scriptPath.replace(/.js$/i, `-${PACKAGE_JSON.version}.js`),
+    getStyleFile: (scriptPath) =>
+      scriptPath.replace(/.css$/i, `-${PACKAGE_JSON.version}.css`),
+  };
 
-    fs.writeFileSync(
-      `./dist/${fileName.replace(/js$/gi, "html")}`,
-      `<!doctype html>${htmlString}`
-    );
-  //});
+  const htmlString = renderToStaticMarkup(pageComponent(pageConfig));
+
+  fs.writeFileSync(
+    `./dist/${fileName.replace(/js$/gi, "html")}`,
+    `<!doctype html>${htmlString}`
+  );
+  // });
 }
 
 function requireUncached(module) {
