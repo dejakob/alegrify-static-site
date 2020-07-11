@@ -2,25 +2,15 @@
 const fs = require("fs");
 const path = require("path");
 
-const PACKAGE_JSON = JSON.parse(
-  fs.readFileSync(path.join(process.env.PWD, "../package.json")).toString()
-);
-
 const { renderToStaticMarkup } = require("react-dom/server");
+
+const pageConfig = require('./page-config');
 
 function renderStaticPage(fileName) {
   // shutUp(() => {
   const pageComponent = requireUncached(
     path.join(process.env.PWD, `./pages/lib/${fileName}`)
   );
-  const pageConfig = {
-    package: { ...PACKAGE_JSON },
-    getScriptFile: (scriptPath) =>
-      scriptPath.replace(/.js$/i, `-${PACKAGE_JSON.version}.js`),
-    getStyleFile: (scriptPath) =>
-      scriptPath.replace(/.css$/i, `-${PACKAGE_JSON.version}.css`),
-  };
-
   const htmlString = renderToStaticMarkup(pageComponent(pageConfig));
 
   fs.writeFileSync(
