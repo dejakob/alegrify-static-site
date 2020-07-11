@@ -2,6 +2,10 @@ const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
 
+const PACKAGE_JSON = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "../package.json")).toString()
+);
+
 const runNpmBinary = require("../common/run-npm-binary");
 const renderStaticPage = require("../common/render-static-page");
 const mkdir = require("../common/mkdir");
@@ -64,7 +68,6 @@ function buildComponents() {
  * Transpile pages folder
  */
 function buildPages() {
-  console.log('build pages');
   return runNpmBinary(
     `babel ./pages/src --config-file ${config(
       "ssr.babelrc"
@@ -106,7 +109,7 @@ function buildLessPage(folder, page) {
         process.env.PWD,
         `./${folder}/src/${page} ${path.join(
           process.env.PWD,
-          `./dist/${page.replace(".less", ".css")}`
+          `./dist/${page.replace(".less", `-${PACKAGE_JSON.version}.css`)}`
         )}`
       )}`
     );

@@ -1,6 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 
+const PACKAGE_JSON = JSON.parse(
+  fs.readFileSync(path.join(process.env.PWD, "../package.json")).toString()
+);
+
 const entry = {};
 
 fs.readdirSync("./client-js/src").forEach((file) => {
@@ -17,6 +21,7 @@ module.exports = {
   entry,
   output: {
     path: path.join(process.env.PWD, "client-js/lib"),
+    filename: `[name]-${PACKAGE_JSON.version}.js`,
   },
   module: {
     rules: [
