@@ -2,6 +2,8 @@
 
 This package can initiate, build, watch and run a static React project.
 
+**Please use Node V13.13 or higher**
+
 ## How?
 
 Go to the directory where you want to set up the project and run
