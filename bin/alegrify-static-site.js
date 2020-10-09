@@ -15,6 +15,10 @@ function run(input) {
       throw new Error("Script not a function");
     }
   } catch (ex) {
+    if (process.env.VERBOSE) {
+      console.error(ex);
+    }
+
     console.info(`Alegrify Static Site Generator
     ==============================
 
@@ -24,6 +28,7 @@ function run(input) {
     [dev] Watch and livereload
     [lint] Run eslint with predefined config
     [upload] Upload dist to gcloud`);
+    return;
   }
 
   try {
