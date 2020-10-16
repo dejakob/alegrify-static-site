@@ -49,7 +49,7 @@ async function getCredentials() {
     "auth_provider_x509_cert_url",
     "client_x509_cert_url",
   ].forEach((key) => {
-    if (process.env && process.env[key]) {
+    if (process.env && process.env[`GCLOUD_${key.toUpperCase()}`]) {
       credentials[key] = process.env[`GCLOUD_${key.toUpperCase()}`].replace(
         /\\n/gm,
         "\n"
